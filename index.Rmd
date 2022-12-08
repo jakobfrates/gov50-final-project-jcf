@@ -37,8 +37,16 @@ We will evaluate whether there is a relationship between gun violence (as measur
 crime <- read_csv("C:/Users/Jakob/Downloads/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings.csv")
 
 
+<<<<<<< HEAD
 
+=======
+distill::build_article()
+>>>>>>> 70c4cc8effb64d96504155a6cd530fdaf7fa5aab
 
 
 ```
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70c4cc8effb64d96504155a6cd530fdaf7fa5aab
