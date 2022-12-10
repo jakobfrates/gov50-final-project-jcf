@@ -19,9 +19,9 @@ library(distill)
 ## Project thoughts
 
 
-For my project, I will test the limits of "Wrong place, wrong time." The adage has often been used from mothers to their children, but we are going to test just how true this. TO evaluate the extent to which the adage can be applied, we will look at gun violence data from Chicago - an infamously violent city - that has records dating back from 1991 to December 2, 2022. 
+For my project, I will test the limits of "Wrong place, wrong time." The adage has often been used from mothers to their children, but we are going to test just how true this. TO evaluate the extent to which the adage can be applied, we will look at gun violence data from Chicago - an infamously violent city - that has records dating back from 1991 to December 2, 2022. This data, expectedly, was collected through a purely observational study. 
 
-We will evaluate whether there is a relationship between gun violence (as measured by homicide) and the time and place in which the crime occurs. I hypothesize that there is a strong correlation between the two variables. The place and date will be my independent variable, and the rate of homicide will be the dependent.  
+We will evaluate whether there is a relationship between gun violence (as measured by homicide) and the time and place in which the crime occurs. I hypothesize that there is a strong relationship between the two variables. The place - seen here as street or not - and time - particularly whether the incident occurs on the weekend or not - will be my independent variables, and the type of homicide will be the dependent. 
 
 
 
@@ -36,9 +36,82 @@ We will evaluate whether there is a relationship between gun violence (as measur
 
 crime <- read_csv("C:/Users/Jakob/Downloads/Violence_Reduction_-_Victims_of_Homicides_and_Non-Fatal_Shootings.csv")
 
+crime <- crime %>%
+  mutate(WEEKEND = if_else(DAY_OF_WEEK %in% c(1,6,7), "Weekend", "Weekday"),
+         WEEKEND_NUM = if_else(WEEKEND =="Weekend",1,0))
+
+crime <- crime %>%
+ mutate(STREET_STATUS = if_else(LOCATION_DESCRIPTION == "STREET", "Street", "Not_Street"),
+         STREET_VAlUE = if_else(STREET_STATUS =="Street",1,0))
+
+
+crime <- crime %>%
+ mutate(HOMICIDE_TYPE = if_else(GUNSHOT_INJURY_I =="YES",1,0))
+
+
+```
+
+```{r}
+time_test <- crime %>%
+ggplot(aes(x = HOMICIDE_TYPE)) + 
+geom_bar()+
+labs(title = "Gun or Not: By the Numbers", x = "Gun or Not", y = "COUNT",
+     caption = "Gun = 1, Non-Gun = 0") 
+
+
+time_test
+```
+
+
+
+```{r}
+
+place_test <- crime %>%
+ggplot(aes(x = STREET_VAlUE)) + 
+geom_bar()+
+labs(title = "Does Place Matter?", x = "LOCATION", y = "COUNT",
+     caption = "0 = Street, 1 = Not Street") 
+
+
+place_test
+```
+
+
+```{r}
+
+```
+
+
+do another plot with hour as x and count as y
 
 
 
 
+
+
+
+
+
+
+
+```{r eval = FALSE}
+crime_status <- lm(HOMICIDE_TYPE ~ WEEKEND_NUM + STREET_VAlUE, data = crime)
+crime_status
+
+modelsummary::modelsummary(crime_status,
+statistic = c("s.e. = {std.error}",
+"p = {p.value}"),
+gof_map = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+
+
+
+
+
+
+```{r}
+crime_rec <- crime |> 
+  group_by()
 ```
 
