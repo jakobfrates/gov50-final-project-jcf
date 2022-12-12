@@ -13,6 +13,7 @@ library(tidyverse)
 library(dplyr)
 library(infer)
 library(distill)
+library(gapminder)
 ```
 
 
@@ -21,7 +22,7 @@ library(distill)
 
 For my project, I will test the limits of "Wrong place, wrong time." The adage has often been used from mothers to their children, but we are going to test just how true this. TO evaluate the extent to which the adage can be applied, we will look at gun violence data from Chicago - an infamously violent city - that has records dating back from 1991 to December 2, 2022. This data, expectedly, was collected through a purely observational study. 
 
-We will evaluate whether there is a relationship between gun violence (as measured by homicide) and the time and place in which the crime occurs. I hypothesize that there is a strong relationship between the two variables. The place - seen here as street or not - and time - particularly whether the incident occurs on the weekend or not - will be my independent variables, and the type of homicide will be the dependent. 
+We will evaluate whether there is a relationship between gun violence (as measured by homicide) and the time and place in which the crime occurs. I hypothesize that there is a strong relationship between the two variables. The place - seen here as street or not - and time - particularly whether the incident occurs on the weekend or not - will be my independent variables, and the type of homicide (gun violence or not) will be the dependent. 
 
 
 
@@ -76,13 +77,20 @@ labs(title = "Does Place Matter?", x = "LOCATION", y = "COUNT",
 place_test
 ```
 
-
 ```{r}
+
+homicide_by_hour <- crime %>%
+ggplot(aes(x = HOUR)) + 
+geom_bar()+
+labs(title = "Incidents By the Hour", x = "Hour", y = "COUNT") 
+
+
+homicide_by_hour
 
 ```
 
 
-do another plot with hour as x and count as y
+
 
 
 
@@ -109,9 +117,4 @@ gof_map = c("nobs", "r.squared", "adj.r.squared"))
 
 
 
-
-```{r}
-crime_rec <- crime |> 
-  group_by()
-```
 
