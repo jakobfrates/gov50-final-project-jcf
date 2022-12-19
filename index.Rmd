@@ -1,19 +1,27 @@
 ---
 title: "Gov 50 Final Project"
-author: "Jakob Frates"
-description: "My final project"
-output:
-  distill::distill_article:
-    self_contained: false
+author: "JC Frates"
+description: "Wrong Place and Wrong Time"
+output: pdf_document
 ---
 
-```{r}
-
+```{r include = FALSE}
+options(
+  scipen = 9,
+  width = 100)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center")
 library(tidyverse)
 library(dplyr)
 library(infer)
 library(distill)
 library(gapminder)
+library(knitr)
+
+
 ```
 
 
@@ -51,6 +59,15 @@ crime <- crime %>%
 
 
 ```
+
+
+
+## Data Summary
+
+My data is purely observational, expectedly, as it is generally seen as unethical in the scientific community to murder for scientific purposes. The data is several thousand observations and includes distinctions of date, time, and area code. For the purposes of my study, I had to mutate initial variables to create the binary variables of WEEKEND_NUM and STREET_VALUE.
+
+
+
 
 ```{r}
 time_test <- crime %>%
@@ -92,17 +109,16 @@ homicide_by_hour
 
 
 
+## Results
+
+
+The results of the regression are clear given the coefficient estimates and the statistical significance of each variable relationship. The intercept has a coefficient estimate of .897, indicating a strong positive relationship between the combined effect of being in the street and being the weekend on whether or not someone is killed by a gun. The plot named "Does Place Matter" shows the difference in gun homicides between the victims on the street or otherwise, making clear the overwhelming gun violence on the street when compared with other locations included in the dataset. The results affirm the aforementioned adage as there is a clearly positive relationship between certain locations and times of the week. 
 
 
 
+I performed a regression to test the extent of the application of the adage. My main coefficient of interest was the location, and more specifically, whether or not the homicide victim was in the street or not. This is shown by my variable name "STREET_VALUE". The coefficient estimate here is .064. From this, we can determine that there is a positive relationship between this independent variable (being in the street) and our dependent variable which is homicide by gun use because this is a value greater than 0. Our p-value is less than .001, which indicates that our results are statistically significant as the value is less than our significance level of .05. I do not believe that the regression indicates a causal relationship between my main coefficient of interest and my dependent variable because I have no information on any possible confounders.
 
-
-
-
-
-
-
-```{r eval = FALSE}
+```{r}
 crime_status <- lm(HOMICIDE_TYPE ~ WEEKEND_NUM + STREET_VAlUE, data = crime)
 crime_status
 
@@ -110,10 +126,15 @@ modelsummary::modelsummary(crime_status,
 statistic = c("s.e. = {std.error}",
 "p = {p.value}"),
 gof_map = c("nobs", "r.squared", "adj.r.squared"))
+
+summary(crime_status)$coefficients |> knitr::kable(digits = 2)
+
 ```
 
 
+## Conclusion
 
+I am unsurprised by the results of this study as it is a generally intuitive understanding that there are particular situations that are more dangerous. I am, however, interested between the relationship between particular situations and the type of danger that someone might be in, in this case the type of homicide. One limitation of the study is that it is taking data from an observational study, which leaves room for a lot of confounders to come into play, which can make interpretation and analysis less clear. To improve the study: one obvious answer would be to increase the amount of variables that we take into account as this affords a more refined regression result from which an analysis is formed.
 
 
 
